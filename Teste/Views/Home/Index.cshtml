@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model Teste.Models.JsonRequestModel;
+
+@using (Html.BeginForm("CreateHotel", "HomeController"))
+{
+    @Html.Label("Cidade");
+    @Html.DropDownList("Cidades", new SelectList(ViewBag.Cidades));
+    @Html.Label("Quantidade de noites");
+    @Html.TextBox("noites");
+}
