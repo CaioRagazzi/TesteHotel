@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "List";
+}
+
+@model List<Teste.Models.Hotel>
+
+@foreach (var item in Model)
+{
+    <div>
+        <p>@item.HotelId</p>
+        @foreach (var item2 in item.Rooms)
+        {
+            <table>
+                <tr>
+                    <th>Quarto ID</th>
+                </tr>
+                <tr>
+                    <td>@item2.Id</td>
+                </tr>
+            </table>
+        }
+    </div>
+}
+
+

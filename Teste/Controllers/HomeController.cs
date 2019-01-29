@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,53 +15,68 @@ namespace Teste.Controllers
 {
     public class HomeController : Controller
     {
-        static HttpClient client = new HttpClient();
-
 
         public IActionResult Index()
         {
-            List<string> cities = new List<string>()
-            {
-                "MIAMI",
-                "ORLANDO"
-            };
+            Busca busca = new Busca();
+            List<string> cidades = busca.GetCidades();
 
-            ViewBag.Cities = cities;
-
+            ViewBag.Cities = new SelectList(cidades);
+           
             return View();
         }
 
-        static async Task<JsonResultModel> GetHotelAsync(string path, Credential credential, Criteria criteria)
+        [HttpPost]
+        private async Task<List<Hotel>> CreateHotelAsync(Criteria criteria, Credential credential)
         {
-            JsonResultModel hoteis = null;
+            JsonResultModel hoteisRetorno = null;
+            List<Hotel> hoteis = new List<Hotel>();
 
             JsonRequestModel hotels = new JsonRequestModel
             {
                 Credential = credential,
                 Criteria = criteria
             };
-
-            client.BaseAddress = new Uri("https://pp.cangooroo.net/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = await client.PostAsJsonAsync("ws/rest/hotel.svc/Search", hotels);
-            response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
             {
-                var jsonResult = response.Content.ReadAsStringAsync().Result;
-                hoteis = JsonConvert.DeserializeObject<JsonResultModel>(jsonResult);
-            }
+                client.BaseAddress = new Uri("https://pp.cangooroo.net/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.PostAsJsonAsync("ws/rest/hotel.svc/Search", hotels);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResult = response.Content.ReadAsStringAsync().Result;
+                    hoteisRetorno = JsonConvert.DeserializeObject<JsonResultModel>(jsonResult);
+                }
 
-            return hoteis;
+                foreach (var item in hoteisRetorno.Hotels)
+                {
+                    hoteis.Add(item);
+                }
+
+                return hoteis;
+            }            
         }
 
-        private static async Task<JsonResultModel> CreateHotel()
+
+        public async Task<IActionResult> GetHotels(Busca busca)
         {
+            int destination;
+            if (busca.Cities.Contains("MIAMI"))
+            {
+                destination = 1003944;
+            }
+            else
+            {
+                destination = 1010106;
+            }
+
             var searchRoom = new SearchRoom()
             {
-                ChildAges = new List<int> { 1 },
-                NumAdults = 1,
-                Quantity = 1
+                ChildAges = new List<int> { busca.ChildAge },
+                NumAdults = busca.QtdAdults,
+                Quantity = busca.QtdRooms
             };
 
             var credential = new Credential()
@@ -70,9 +87,9 @@ namespace Teste.Controllers
 
             var criteria = new Criteria()
             {
-                DestinationId = 1003944,
-                NumNights = 2,
-                CheckinDate = "2019-02-10",
+                DestinationId = destination,
+                NumNights = busca.QtdNights,
+                CheckinDate = busca.DateCheckIn.ToString("yyyy-MM-dd"),
                 MainPaxCountryCodeNationality = "BR",
                 SearchRooms = new List<SearchRoom>()
                 {
@@ -80,9 +97,9 @@ namespace Teste.Controllers
                 }
             };
 
-            JsonResultModel hoteis = await GetHotelAsync("https://pp.cangooroo.net/ws/rest/hotel.svc/Search", credential, criteria);
+            var hoteis = await CreateHotelAsync(criteria, credential);
 
-            return hoteis;
+            return View("List", hoteis);
         }
     }
 }
