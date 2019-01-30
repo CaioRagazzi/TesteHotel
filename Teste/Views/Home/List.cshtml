@@ -12,6 +12,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css">
     <title>Create</title>
+    <meta http-equiv=”Content-Type” content=”text/html; charset=iso-8859-1″>
 </head>
 <body>
     <div class="div-content2">
@@ -19,7 +20,6 @@
         {
             <div style="border:solid; padding:5px; margin: 10px">
                 @Html.ActionLink("Detalhes do Hotel", "HotelsDetails", "Home", new { @item.HotelId }, null)
-                <p>@item.HotelId</p>
                 @foreach (var item2 in item.Rooms)
                 {
 

@@ -26,31 +26,31 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.QtdNights)
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.QtdNights, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.QtdNights, new { @class = "form-control", required="required", @type = "number" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.QtdAdults)
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.QtdAdults, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.QtdAdults, new { @class = "form-control", required = "required", @type = "number" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.QtdRooms)
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.QtdRooms, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.QtdRooms, new { @class = "form-control", required = "required", @type = "number" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.ChildAge)
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.ChildAge, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.ChildAge, new { @class = "form-control", required = "required", @type = "number" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.DateCheckIn)
                 <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.DateCheckIn, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.DateCheckIn, new { @class = "form-control datepicker", required = "required", @type = "date" })
                 </div>
             </div>
             <div class="form-group">
