@@ -1,5 +1,16 @@
 ﻿.div-content {
+    position: absolute;
+    left: 400px;
+    padding: 5px;
     width: 500px;
     height: 400px;
+}
+
+.div-content2 {
+    width: inherit;
+    position: absolute;
+    left: 200px;
+    top: 50px;
+
 
 }

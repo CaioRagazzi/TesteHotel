@@ -4,22 +4,57 @@
 
 @model List<Teste.Models.Hotel>
 
-@foreach (var item in Model)
-{
-    <div>
-        <p>@item.HotelId</p>
-        @foreach (var item2 in item.Rooms)
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css">
+    <title>Create</title>
+</head>
+<body>
+    <div class="div-content2">
+        @foreach (var item in Model)
         {
-            <table>
-                <tr>
-                    <th>Quarto ID</th>
-                </tr>
-                <tr>
-                    <td>@item2.Id</td>
-                </tr>
-            </table>
+            <div style="border:solid; padding:5px; margin: 10px">
+                @Html.ActionLink("Detalhes do Hotel", "HotelsDetails", "Home", new { @item.HotelId }, null)
+                <p>@item.HotelId</p>
+                @foreach (var item2 in item.Rooms)
+                {
+
+                    <table class="table table-bordered" style="padding: 10px">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Quarto ID</th>
+                                <th>Adicionais</th>
+                                <th>Número de adultos</th>
+                                <th>Número de quartos</th>
+                                <th>Disponível</th>
+                                <th>Descrição do Quarto</th>
+                                <th>Preço total</th>
+                                <th>Preço do quarto</th>
+                                <th>Mais informações</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>@item2.Id</td>
+                            <td>@item2.BoardDescription</td>
+                            <td>@item2.NumAdults</td>
+                            <td>@item2.Quantity</td>
+                            <td>@item2.IsAvailable</td>
+                            <td>@item2.RoomDescription</td>
+                            <td>@item2.TotalSellingPrice.Value @item2.TotalSellingPrice.Currency</td>
+                            <td>@item2.SellingPricePerRoom.Value @item2.SellingPricePerRoom.Currency</td>
+                            <td>@item2.MoreInformation</td>
+                        </tr>
+
+                    </table>
+
+                }
+            </div>
         }
     </div>
-}
-
+</body>
+</html>
 

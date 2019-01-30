@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -100,6 +98,19 @@ namespace Teste.Controllers
             var hoteis = await CreateHotelAsync(criteria, credential);
 
             return View("List", hoteis);
+        }
+
+        public IActionResult HotelsDetails(int hotelId)
+        {
+            List<HotelDetails> hotelDetails= new List<HotelDetails>();
+            using (StreamReader sr = new StreamReader(@"C:\Users\g0ysb\source\repos\Teste\Teste\Util\HOTELS.json"))
+            {
+                hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+            }
+
+            var hotel = hotelDetails.Find(item => item.id == hotelId);
+
+            return View(hotel);
         }
     }
 }
