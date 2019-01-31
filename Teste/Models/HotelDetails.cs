@@ -28,12 +28,28 @@ namespace Teste.Models
         public string address { get; set; }
         public string website { get; set; }
 
-        public List<HotelDetails> GetAllHotels()
+
+        /// <summary>
+        /// Método utilizado para criar uma lista com todos os detalhes do hotel baseado no ID Destination que for selecionado.
+        /// </summary>
+        /// <param name="destination">ID de destino</param>
+        /// <returns>Retorna uma lista de HotelDetails</returns>
+        public List<HotelDetails> GetAllHotels(int destination)
         {
             List<HotelDetails> hotelDetails = new List<HotelDetails>();
-            using (StreamReader sr = new StreamReader(@"C:\Users\g0ysb\source\repos\Teste\Teste\Util\HOTELS.json"))
+            if (destination == 1003944)
             {
-                hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Util\\103944_hotels_static_data.json"))
+                {
+                    hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+                }
+            }
+            else
+            {
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Util\\1010106_hotels_static_data.json"))
+                {
+                    hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+                }
             }
 
             return hotelDetails;

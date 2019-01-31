@@ -15,16 +15,6 @@ namespace Teste.Controllers
     public class HomeController : Controller
     {
 
-        public IActionResult Index()
-        {
-            Busca busca = new Busca();
-            List<string> cidades = busca.GetCidades();
-
-            ViewBag.Cities = new SelectList(cidades);
-
-            return View();
-        }
-
         [HttpPost]
         private async Task<List<HoteisFormatados>> CreateHotelAsync(Criteria criteria, Credential credential)
         {
@@ -56,7 +46,7 @@ namespace Teste.Controllers
 
                 HotelDetails allHotels = new HotelDetails();
 
-                var hotelDetails = allHotels.GetAllHotels();
+                var hotelDetails = allHotels.GetAllHotels(criteria.DestinationId);
 
                 var alls = (from x in hoteis
                             join y in hotelDetails on x.HotelId equals y.id
@@ -85,46 +75,66 @@ namespace Teste.Controllers
         }
 
 
-        public async Task<IActionResult> GetHotels(Busca busca)
+        public async Task<IActionResult> Index(Busca busca)
         {
-            int destination;
-            if (busca.Cities.Contains("MIAMI"))
-            {
-                destination = 1003944;
-            }
-            else
-            {
-                destination = 1010106;
-            }
 
-            var searchRoom = new SearchRoom()
+            if (busca.Cities != null)
             {
-                ChildAges = new List<int> { busca.ChildAge },
-                NumAdults = busca.QtdAdults,
-                Quantity = busca.QtdRooms
-            };
+                int destination;
+                if (busca.Cities.Contains("MIAMI"))
+                {
+                    destination = 1003944;
+                }
+                else
+                {
+                    destination = 1010106;
+                }
 
-            var credential = new Credential()
-            {
-                Username = "candidato_t4w",
-                Password = "candit@!2019"
-            };
 
-            var criteria = new Criteria()
-            {
-                DestinationId = destination,
-                NumNights = busca.QtdNights,
-                CheckinDate = busca.DateCheckIn.ToString("yyyy-MM-dd"),
-                MainPaxCountryCodeNationality = "BR",
-                SearchRooms = new List<SearchRoom>()
+                var searchRoom = new SearchRoom()
+                {
+                    ChildAges = new List<int> { busca.ChildAge },
+                    NumAdults = busca.QtdAdults,
+                    Quantity = busca.QtdRooms
+                };
+
+                var credential = new Credential()
+                {
+                    Username = "candidato_t4w",
+                    Password = "candit@!2019"
+                };
+
+                var criteria = new Criteria()
+                {
+                    DestinationId = destination,
+                    NumNights = busca.QtdNights,
+                    CheckinDate = busca.DateCheckIn.ToString("yyyy-MM-dd"),
+                    MainPaxCountryCodeNationality = "BR",
+                    SearchRooms = new List<SearchRoom>()
                 {
                     searchRoom
                 }
-            };
+                };
 
-            var hoteis = await CreateHotelAsync(criteria, credential);
+                var hoteis = await CreateHotelAsync(criteria, credential);
 
-            return View("List", hoteis);
+                List<string> cidades = busca.GetCidades();
+
+                ViewBag.Cities = new SelectList(cidades);
+                ViewBag.Hoteis = hoteis;
+
+                return View();
+            }
+            else
+            {
+                Busca busca2 = new Busca();
+                List<string> cidades = busca2.GetCidades();
+
+                ViewBag.Cities = new SelectList(cidades);
+                ViewBag.Hoteis = new List<HoteisFormatados>();
+
+                return View();
+            }
         }
     }
 }
