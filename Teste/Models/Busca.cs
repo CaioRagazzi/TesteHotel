@@ -24,7 +24,8 @@ namespace Teste.Models
         [Display(Name = "Quartos")]
         public int QtdQuartos { get; set; }
         [Display(Name = "Crianças")]
-        public int IdadeCriancas { get; set; }
+        [RegularExpression(@"[^1-9\;]+", ErrorMessage = "UPRN must be numeric")]
+        public string IdadeCriancas { get; set; }
 
         public List<string> GetCidades()
         {

@@ -74,7 +74,7 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.IdadeCriancas)
-                        @Html.TextBoxFor(m => m.IdadeCriancas, new { @class = "form-control", @type = "number", @min = "1", @max = "31" })
+                        @Html.TextBoxFor(m => m.IdadeCriancas, new { @class = "form-control", @pattern = @"[^1-9\;]+" })
                     </div>
                 </div>
 

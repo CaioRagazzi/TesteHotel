@@ -42,7 +42,7 @@ namespace Teste.Models
             List<HotelDetails> hotelDetails = new List<HotelDetails>();
             if (destination == 1003944)
             {
-                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Util\\103944_hotels_static_data.json"))
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Util\\1003944_hotels_static_data.json"))
                 {
                     hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
                 }

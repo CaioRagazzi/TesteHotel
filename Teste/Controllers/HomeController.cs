@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -53,9 +54,9 @@ namespace Teste.Controllers
 
         public async Task<IActionResult> Index(Busca busca)
         {
-
             if (busca.Cidades != null)
             {
+
                 int destination;
                 if (busca.Cidades.Contains("MIAMI"))
                 {
@@ -66,9 +67,17 @@ namespace Teste.Controllers
                     destination = 1010106;
                 }
 
+                List<string> idades = new List<string>();
+                if (busca.IdadeCriancas != null)
+                {
+                    idades = busca.IdadeCriancas.Split(';').ToList();
+                }
+
+                var idadesInt = idades.Select(int.Parse).ToList();
+
                 var searchRoom = new SearchRoom()
                 {
-                    ChildAges = new List<int> { busca.IdadeCriancas },
+                    ChildAges = idadesInt,
                     NumAdults = busca.QtdAdultos,
                     Quantity = busca.QtdQuartos
                 };
@@ -110,6 +119,8 @@ namespace Teste.Controllers
 
                 return View();
             }
+
+
         }
     }
 }
