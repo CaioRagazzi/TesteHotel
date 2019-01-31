@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Teste.Models
 {
+    /// <summary>
+    /// Classe reponsável por padronizar o hotel definido pelo arquivo disponibilizado.
+    /// </summary>
     public class HotelDetails
     {
         public int id { get; set; }

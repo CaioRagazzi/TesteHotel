@@ -6,32 +6,35 @@ using System.Threading.Tasks;
 
 namespace Teste.Models
 {
+    /// <summary>
+    /// Classe responsável por definir um padrão de entrada de dados na aplicação.
+    /// </summary>
     public class Busca
     {
         [Display(Name = "Cidades")]
-        public List<string> Cities { get; set; }
+        public List<string> Cidades { get; set; }
         [Display(Name = "Noites")]
         [Range(1,31)]
-        public int QtdNights { get; set; }
+        public int QtdNoites { get; set; }
         [Display(Name = "Data Checkin")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime DateCheckIn { get; set; }
+        public DateTime DataCheckIn { get; set; }
         [Display(Name = "Adultos")]
-        public int QtdAdults { get; set; }
+        public int QtdAdultos { get; set; }
         [Display(Name = "Quartos")]
-        public int QtdRooms { get; set; }
+        public int QtdQuartos { get; set; }
         [Display(Name = "Crianças")]
-        public int ChildAge { get; set; }
+        public int IdadeCriancas { get; set; }
 
         public List<string> GetCidades()
         {
-            Cities = new List<string>()
+            Cidades = new List<string>()
             {
                 "ORLANDO",
                 "MIAMI"
             };
 
-            return Cities;
+            return Cidades;
         }
     }
 }

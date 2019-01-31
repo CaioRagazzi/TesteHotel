@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
 using Teste.Models;
 
 namespace Teste.Controllers
@@ -19,13 +17,13 @@ namespace Teste.Controllers
         private async Task<List<HoteisFormatados>> CreateHotelAsync(Criteria criteria, Credential credential)
         {
             JsonResultModel hoteisRetorno = null;
-            List<Hotel> hoteis = new List<Hotel>();
 
             JsonRequestModel hotels = new JsonRequestModel
             {
                 Credential = credential,
                 Criteria = criteria
             };
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://pp.cangooroo.net/");
@@ -38,50 +36,28 @@ namespace Teste.Controllers
                     var jsonResult = response.Content.ReadAsStringAsync().Result;
                     hoteisRetorno = JsonConvert.DeserializeObject<JsonResultModel>(jsonResult);
                 }
-
-                foreach (var item in hoteisRetorno.Hotels)
-                {
-                    hoteis.Add(item);
-                }
-
-                HotelDetails allHotels = new HotelDetails();
-
-                var hotelDetails = allHotels.GetAllHotels(criteria.DestinationId);
-
-                var alls = (from x in hoteis
-                            join y in hotelDetails on x.HotelId equals y.id
-                            select new { x.Rooms, y.name, y.chainName, y.cityNamePT, y.address, y.website }).ToList();
-
-                List<HoteisFormatados> hoteisFormatados = new List<HoteisFormatados>();
-                HoteisFormatados formatados;
-
-                foreach (var item in alls)
-                {
-                    formatados = new HoteisFormatados()
-                    {
-                        Rooms = item.Rooms,
-                        NomeHotel = item.name,
-                        ChainName = item.chainName,
-                        CityNamePT = item.cityNamePT,
-                        Endereco = item.address,
-                        WebSite = item.website
-                    };
-
-                    hoteisFormatados.Add(formatados);
-                }
-
-                return hoteisFormatados;
             }
-        }
 
+            List<Hotel> hoteis = new List<Hotel>();
+
+            foreach (var item in hoteisRetorno.Hotels)
+            {
+                hoteis.Add(item);
+            }
+
+            List<HoteisFormatados> hoteisFormatados = new HoteisFormatados().GetHoteisFormatados(hoteis, criteria.DestinationId);
+
+            return hoteisFormatados;
+
+        }
 
         public async Task<IActionResult> Index(Busca busca)
         {
 
-            if (busca.Cities != null)
+            if (busca.Cidades != null)
             {
                 int destination;
-                if (busca.Cities.Contains("MIAMI"))
+                if (busca.Cidades.Contains("MIAMI"))
                 {
                     destination = 1003944;
                 }
@@ -90,12 +66,11 @@ namespace Teste.Controllers
                     destination = 1010106;
                 }
 
-
                 var searchRoom = new SearchRoom()
                 {
-                    ChildAges = new List<int> { busca.ChildAge },
-                    NumAdults = busca.QtdAdults,
-                    Quantity = busca.QtdRooms
+                    ChildAges = new List<int> { busca.IdadeCriancas },
+                    NumAdults = busca.QtdAdultos,
+                    Quantity = busca.QtdQuartos
                 };
 
                 var credential = new Credential()
@@ -107,8 +82,8 @@ namespace Teste.Controllers
                 var criteria = new Criteria()
                 {
                     DestinationId = destination,
-                    NumNights = busca.QtdNights,
-                    CheckinDate = busca.DateCheckIn.ToString("yyyy-MM-dd"),
+                    NumNights = busca.QtdNoites,
+                    CheckinDate = busca.DataCheckIn.ToString("yyyy-MM-dd"),
                     MainPaxCountryCodeNationality = "BR",
                     SearchRooms = new List<SearchRoom>()
                 {
@@ -120,7 +95,7 @@ namespace Teste.Controllers
 
                 List<string> cidades = busca.GetCidades();
 
-                ViewBag.Cities = new SelectList(cidades);
+                ViewBag.Cidades = new SelectList(cidades);
                 ViewBag.Hoteis = hoteis;
 
                 return View();
@@ -130,7 +105,7 @@ namespace Teste.Controllers
                 Busca busca2 = new Busca();
                 List<string> cidades = busca2.GetCidades();
 
-                ViewBag.Cities = new SelectList(cidades);
+                ViewBag.Cidades = new SelectList(cidades);
                 ViewBag.Hoteis = new List<HoteisFormatados>();
 
                 return View();

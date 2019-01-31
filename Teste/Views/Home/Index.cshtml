@@ -13,16 +13,15 @@
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    @*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>*@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#dtBasicExample').DataTable({
-                order: [[3, "desc"]],
+                order: [[3, "asc"]],
                 searching: false,
                 language: {
                     "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "info": "Exibindo _START_ de _END_ de _TOTAL_ resultados",
                     "emptyTable": "Nenhum registro encontrado para a busca.",
                     "paginate": {
                         "first": "Primeiro",
@@ -46,43 +45,43 @@
             <div class="col-xs-4">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Cities)
-                        @Html.DropDownListFor(m => m.Cities, ViewBag.Cidades as SelectList, new { @class = "form-control" })
+                        @Html.LabelFor(m => m.Cidades)
+                        @Html.DropDownListFor(m => m.Cidades, ViewBag.Cidades as SelectList, new { @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.QtdNights)
-                        @Html.TextBoxFor(m => m.QtdNights, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
+                        @Html.LabelFor(m => m.QtdNoites)
+                        @Html.TextBoxFor(m => m.QtdNoites, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.QtdAdults)
-                        @Html.TextBoxFor(m => m.QtdAdults, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
+                        @Html.LabelFor(m => m.QtdAdultos)
+                        @Html.TextBoxFor(m => m.QtdAdultos, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.QtdRooms)
-                        @Html.TextBoxFor(m => m.QtdRooms, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
+                        @Html.LabelFor(m => m.QtdQuartos)
+                        @Html.TextBoxFor(m => m.QtdQuartos, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.ChildAge)
-                        @Html.TextBoxFor(m => m.ChildAge, new { @class = "form-control", @type = "number", @min = "1", @max = "31" })
+                        @Html.LabelFor(m => m.IdadeCriancas)
+                        @Html.TextBoxFor(m => m.IdadeCriancas, new { @class = "form-control", @type = "number", @min = "1", @max = "31" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.DateCheckIn)
-                        @Html.TextBoxFor(m => m.DateCheckIn, new { @class = "form-control datepicker", required = "required", @type = "date" })
+                        @Html.LabelFor(m => m.DataCheckIn)
+                        @Html.TextBoxFor(m => m.DataCheckIn, new { @class = "form-control datepicker", required = "required", @type = "date" })
                     </div>
                 </div>
 
