@@ -2,7 +2,7 @@
     ViewData["Title"] = "List";
 }
 
-@model List<Teste.Models.Hotel>
+@model List<Teste.Models.HoteisFormatados>
 
 <!DOCTYPE html>
 
@@ -19,7 +19,7 @@
         @foreach (var item in Model)
         {
             <div style="border:solid; padding:5px; margin: 10px">
-                @Html.ActionLink("Detalhes do Hotel", "HotelsDetails", "Home", new { @item.HotelId }, null)
+                @item.NomeHotel
                 @foreach (var item2 in item.Rooms)
                 {
 

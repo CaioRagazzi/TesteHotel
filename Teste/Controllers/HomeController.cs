@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,12 +21,12 @@ namespace Teste.Controllers
             List<string> cidades = busca.GetCidades();
 
             ViewBag.Cities = new SelectList(cidades);
-           
+
             return View();
         }
 
         [HttpPost]
-        private async Task<List<Hotel>> CreateHotelAsync(Criteria criteria, Credential credential)
+        private async Task<List<HoteisFormatados>> CreateHotelAsync(Criteria criteria, Credential credential)
         {
             JsonResultModel hoteisRetorno = null;
             List<Hotel> hoteis = new List<Hotel>();
@@ -53,8 +54,34 @@ namespace Teste.Controllers
                     hoteis.Add(item);
                 }
 
-                return hoteis;
-            }            
+                HotelDetails allHotels = new HotelDetails();
+
+                var hotelDetails = allHotels.GetAllHotels();
+
+                var alls = (from x in hoteis
+                            join y in hotelDetails on x.HotelId equals y.id
+                            select new { x.Rooms, y.name, y.chainName, y.cityNamePT, y.address, y.website }).ToList();
+
+                List<HoteisFormatados> hoteisFormatados = new List<HoteisFormatados>();
+                HoteisFormatados formatados;
+
+                foreach (var item in alls)
+                {
+                    formatados = new HoteisFormatados()
+                    {
+                        Rooms = item.Rooms,
+                        NomeHotel = item.name,
+                        ChainName = item.chainName,
+                        CityNamePT = item.cityNamePT,
+                        Endereco = item.address,
+                        WebSite = item.website
+                    };
+
+                    hoteisFormatados.Add(formatados);
+                }
+
+                return hoteisFormatados;
+            }
         }
 
 
@@ -98,19 +125,6 @@ namespace Teste.Controllers
             var hoteis = await CreateHotelAsync(criteria, credential);
 
             return View("List", hoteis);
-        }
-
-        public IActionResult HotelsDetails(int hotelId)
-        {
-            List<HotelDetails> hotelDetails= new List<HotelDetails>();
-            using (StreamReader sr = new StreamReader(@"C:\Users\g0ysb\source\repos\Teste\Teste\Util\HOTELS.json"))
-            {
-                hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
-            }
-
-            var hotel = hotelDetails.Find(item => item.id == hotelId);
-
-            return View(hotel);
         }
     }
 }

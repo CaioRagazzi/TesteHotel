@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,5 +27,16 @@ namespace Teste.Models
         public List<object> localizations { get; set; }
         public string address { get; set; }
         public string website { get; set; }
+
+        public List<HotelDetails> GetAllHotels()
+        {
+            List<HotelDetails> hotelDetails = new List<HotelDetails>();
+            using (StreamReader sr = new StreamReader(@"C:\Users\g0ysb\source\repos\Teste\Teste\Util\HOTELS.json"))
+            {
+                hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+            }
+
+            return hotelDetails;
+        }
     }
 }

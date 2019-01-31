@@ -11,6 +11,7 @@ namespace Teste.Models
         [Display(Name = "Cidades")]
         public List<string> Cities { get; set; }
         [Display(Name = "Noites")]
+        [Range(1,31)]
         public int QtdNights { get; set; }
         [Display(Name = "Data Checkin")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]

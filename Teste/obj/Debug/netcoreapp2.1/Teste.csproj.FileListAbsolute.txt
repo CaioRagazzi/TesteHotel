@@ -48,4 +48,3 @@ C:\Users\cragazzi\Documents\Projetos\TesteHotel\Teste\obj\Debug\netcoreapp2.1\Ra
 C:\Users\cragazzi\Documents\Projetos\TesteHotel\Teste\bin\Debug\netcoreapp2.1\Util\MIAMI.json
 C:\Users\g0ysb\source\repos\Teste\Teste\obj\Debug\netcoreapp2.1\Razor\Views\Home\List.g.cshtml.cs
 C:\Users\g0ysb\source\repos\Teste\Teste\bin\Debug\netcoreapp2.1\Util\HOTELS.json
-C:\Users\g0ysb\source\repos\Teste\Teste\obj\Debug\netcoreapp2.1\Razor\Views\Home\HotelsDetails.g.cshtml.cs
