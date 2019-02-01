@@ -57,5 +57,35 @@ namespace Teste.Models
 
             return hotelDetails;
         }
+
+        public HotelDetails GetHotelDetails(int destination, int hotelId)
+        {
+            List<HotelDetails> hotelDetails = new List<HotelDetails>();
+            if (destination == 1003944)
+            {
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Util\\1003944_hotels_static_data.json"))
+                {
+                    hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+                }
+
+                var result = (from hot in hotelDetails
+                             where hot.id == hotelId
+                             select hot).FirstOrDefault();
+
+                return result;
+            }
+            else
+            {
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Util\\1010106_hotels_static_data.json"))
+                {
+                    hotelDetails = JsonConvert.DeserializeObject<List<HotelDetails>>(sr.ReadToEnd());
+                }
+
+                var result = (from hot in hotelDetails
+                             where hot.id == hotelId
+                             select hot).FirstOrDefault();
+                return result;
+            }            
+        }
     }
 }

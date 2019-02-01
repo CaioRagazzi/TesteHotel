@@ -11,11 +11,13 @@ namespace Teste.Models
     public class HoteisFormatados
     {
         public List<Room> Rooms;
+        public int HotelId;
         public string NomeHotel;
         public string ChainName;
         public string CityNamePT;
         public string Endereco;
         public string WebSite;
+        public int DestionationID;
 
         /// <summary>
         /// Relaciona a lista de Hoteis recebida pela API com a lista de detalhes de hotéis disponibilizada.
@@ -33,7 +35,7 @@ namespace Teste.Models
 
             var alls = (from x in hoteis
                         join y in result on x.HotelId equals y.id
-                        select new { x.Rooms, y.name, y.chainName, y.cityNamePT, y.address, y.website }).ToList();
+                        select new { x.Rooms, x.HotelId, y.name, y.chainName, y.cityNamePT, y.address, y.website, destinationID }).ToList();
 
             List<HoteisFormatados> hoteisFormatados = new List<HoteisFormatados>();
             HoteisFormatados formatados;
@@ -43,11 +45,15 @@ namespace Teste.Models
                 formatados = new HoteisFormatados()
                 {
                     Rooms = item.Rooms,
+
                     NomeHotel = item.name,
+                    HotelId = item.HotelId,
                     ChainName = item.chainName,
                     CityNamePT = item.cityNamePT,
                     Endereco = item.address,
-                    WebSite = item.website
+                    WebSite = item.website,
+                    DestionationID = destinationID
+                    
                 };
 
                 hoteisFormatados.Add(formatados);

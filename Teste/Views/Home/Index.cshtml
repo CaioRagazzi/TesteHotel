@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Busca de Hotéis";
 }
 
 @model Teste.Models.Busca;
@@ -8,7 +8,7 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
@@ -34,7 +34,7 @@
             });
         });
     </script>
-    <title>Busca de Hotéis</title>
+    <title>@ViewData["Title"]</title>
 </head>
 <body>
 
@@ -42,7 +42,7 @@
 
         @using (Html.BeginForm("Index", "Home", FormMethod.Post))
         {
-            <div class="col-xs-4">
+            <div class="col-xs-4" style="padding-bottom: 25px;">
                 <div class="col-xs-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Cidades)
@@ -53,28 +53,28 @@
                 <div class="col-xs-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.QtdNoites)
-                        @Html.TextBoxFor(m => m.QtdNoites, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
+                        @Html.TextBoxFor(m => m.QtdNoites, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31", @placeholder = "Quantidade de noites" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.QtdAdultos)
-                        @Html.TextBoxFor(m => m.QtdAdultos, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
+                        @Html.TextBoxFor(m => m.QtdAdultos, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31", @placeholder = "Quantidade de adultos" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.QtdQuartos)
-                        @Html.TextBoxFor(m => m.QtdQuartos, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31" })
+                        @Html.TextBoxFor(m => m.QtdQuartos, new { @class = "form-control", required = "required", @type = "number", @min = "1", @max = "31", @placeholder = "Quantidade de quartos" })
                     </div>
                 </div>
 
                 <div class="col-xs-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.IdadeCriancas)
-                        @Html.TextBoxFor(m => m.IdadeCriancas, new { @class = "form-control", @pattern = @"[^1-9\;]+" })
+                        @Html.TextBoxFor(m => m.IdadeCriancas, new { @class = "form-control", @placeholder = "Separar com ;" })
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
                 @foreach (var item2 in item.Rooms)
                 {
                     <tr>
-                        <td>@item.NomeHotel</td>
+                        <td><a href="@Url.Action("Index", "HotelDetail", new { idHotel = item.HotelId, destination = item.DestionationID })" target="_blank">@item.NomeHotel</a></td>
                         <td>@item2.BoardDescription</td>
                         <td>@item2.RoomDescription</td>
                         <td>@item2.TotalSellingPrice.Value</td>

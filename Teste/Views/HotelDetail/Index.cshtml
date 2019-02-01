@@ -1,0 +1,9 @@
+﻿@model Teste.Models.HotelDetails
+
+@{
+    ViewData["Title"] = "Detalhes do Hotel " + Model.name;
+}
+
+<title>@ViewData["Title"]</title>
+
+<img src="@Model.urlThumb" alt="Imagem Hotel">

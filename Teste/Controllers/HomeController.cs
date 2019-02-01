@@ -13,7 +13,12 @@ namespace Teste.Controllers
 {
     public class HomeController : Controller
     {
-
+        /// <summary>
+        /// Método responsável por consultar a API de hoteis e retornar uma lista já formatada e relacionada com os detalhes dos hoteis.
+        /// </summary>
+        /// <param name="criteria">Detalhes da busca de hoteis ex.: Destino, número de noites, data de checkin e etc.</param>
+        /// <param name="credential">Usuário e senha para consultar a API.</param>
+        /// <returns>Retornar uma Lista de HoteisFormatados</returns>
         [HttpPost]
         private async Task<List<HoteisFormatados>> CreateHotelAsync(Criteria criteria, Credential credential)
         {
@@ -51,7 +56,11 @@ namespace Teste.Controllers
             return hoteisFormatados;
 
         }
-
+        /// <summary>
+        /// Action principal.
+        /// </summary>
+        /// <param name="busca">Recebe exatamente todos os parâmetros que são realizados na busca.</param>
+        /// <returns>Realiza o retorno para a view Index desse controller. Nela também são passadaws ViewBags para alimentar o dropdownlist e a table</returns>
         public async Task<IActionResult> Index(Busca busca)
         {
             if (busca.Cidades != null)
@@ -73,7 +82,18 @@ namespace Teste.Controllers
                     idades = busca.IdadeCriancas.Split(';').ToList();
                 }
 
-                var idadesInt = idades.Select(int.Parse).ToList();
+                List<int> idadesInt;
+
+                try
+                {
+                    idadesInt = idades.Select(int.Parse).ToList();
+                }
+                catch (Exception)
+                {
+
+                    throw new System.ArgumentException("Só são aceitos números e ; para as idades das crianças");
+                }
+                
 
                 var searchRoom = new SearchRoom()
                 {

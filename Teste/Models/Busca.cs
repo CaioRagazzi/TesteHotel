@@ -24,9 +24,12 @@ namespace Teste.Models
         [Display(Name = "Quartos")]
         public int QtdQuartos { get; set; }
         [Display(Name = "Crianças")]
-        [RegularExpression(@"[^1-9\;]+", ErrorMessage = "UPRN must be numeric")]
         public string IdadeCriancas { get; set; }
 
+        /// <summary>
+        /// Método responsável por retornar todas as cidades que podem ser pesquisadas para a busca de hotéis.
+        /// </summary>
+        /// <returns>Retorna uma lista de strings contendo as cidades.</returns>
         public List<string> GetCidades()
         {
             Cidades = new List<string>()
