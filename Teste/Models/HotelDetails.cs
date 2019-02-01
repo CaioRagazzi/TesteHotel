@@ -57,7 +57,12 @@ namespace Teste.Models
 
             return hotelDetails;
         }
-
+        /// <summary>
+        /// Método responsável por listar o hotel que precisa ser detalhado.
+        /// </summary>
+        /// <param name="destination">ID do destino</param>
+        /// <param name="hotelId">ID do hotel a ser pesquisado</param>
+        /// <returns>Retorna apenas um hotelDetails</returns>
         public HotelDetails GetHotelDetails(int destination, int hotelId)
         {
             List<HotelDetails> hotelDetails = new List<HotelDetails>();

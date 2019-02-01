@@ -3,7 +3,24 @@
 @{
     ViewData["Title"] = "Detalhes do Hotel " + Model.name;
 }
-
-<title>@ViewData["Title"]</title>
-
-<img src="@Model.urlThumb" alt="Imagem Hotel">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div>
+        <img src="@Model.urlThumb" alt="Imagem Hotel">
+    </div>
+    <div>
+        <h1>@Model.name</h1>
+        <h2>@Model.cityNamePT</h2>
+        <a href="@Model.website" target="_blank"><h2>@Model.website</h2></a>
+    </div>
+</body>
+</html>
